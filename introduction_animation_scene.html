@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Introduction</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<style>
+/* Prevent page scrolling and overflow */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important;
+    width: 100%;
+    height: 100%;
+    background-color: #160736;
+}
+
+/* Main container positioning - creates responsive centered layout */
+#animation_container {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden !important;
+    background-color: #160736;
+    width: 1920px;
+    height: 1080px;
+}
+
+/* Lottie container fills the animation container */
+#lottie_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+</style>
+</head>
+<body onload="init();" style="margin:0px;">
+    <div id="animation_container">
+        <div id="lottie_container"></div>
+    </div>
+
+    <script>
+        var anim_container;
+        var animation;
+
+        function init() {
+            anim_container = document.getElementById("animation_container");
+            
+            // Apply responsive scaling similar to AdobeAn.makeResponsive
+            makeResponsive();
+            window.addEventListener('resize', makeResponsive);
+            
+            // Load and play the Lottie animation
+            animation = lottie.loadAnimation({
+                container: document.getElementById('lottie_container'),
+                renderer: 'svg',
+                loop: false,
+                autoplay: true,
+                path: 'final introduction scene.json',
+                rendererSettings: {
+                    preserveAspectRatio: 'xMidYMid slice'
+                }
+            });
+
+            // When animation completes, navigate to the next page
+            animation.addEventListener('complete', function() {
+                
+                // Fade out
+                document.body.style.transition = 'opacity 0.2s ease-in-out';
+                document.body.style.opacity = '0';
+                
+                // Navigate after fade
+                setTimeout(function() {
+                    window.location.href = "interactive_solar_system.html";
+                }, 200);
+            });
+
+            // Log when animation is ready
+            animation.addEventListener('data_ready', function() {
+            });
+        }
+
+        function makeResponsive() {
+            var respWidth = 1920;
+            var respHeight = 1080;
+            
+            var lastW = window.innerWidth;
+            var lastH = window.innerHeight;
+            
+            var sRatio = lastW / respWidth;
+            var hRatio = lastH / respHeight;
+            
+            // Use the smaller ratio to ensure the entire animation fits
+            var ratio = Math.min(sRatio, hRatio);
+            
+            anim_container.style.width = respWidth * ratio + 'px';
+            anim_container.style.height = respHeight * ratio + 'px';
+        }
+    </script>
+</body>
+</html>

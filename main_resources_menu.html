@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<title>Main Resources Menu</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important;
+    width: 100%;
+    height: 100%;
+    background-color: #160736;
+}
+#animation_container {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden !important;
+    background-color: #160736;
+}
+#canvas {
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+#dom_overlay_container {
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+</style>
+<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+<script src="main_resources_menu.js"></script>
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("58431B3327A3174784920DEF8E1D8416");
+	var lib=comp.getLibrary();
+	handleComplete({},comp);
+}
+function handleComplete(evt,comp) {
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	exportRoot = new lib.mainresourcesmenufinalproject();
+	stage = new lib.Stage(canvas);
+	stage.enableMouseOver();	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(true,'both',true,1,[canvas,anim_container,dom_overlay_container]);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+</script>
+</head>
+<body onload="init();" style="margin:0px;">
+	<div id="animation_container" style=" width:1920px; height:1080px">
+		<canvas id="canvas" width="1920" height="1080" style="position: absolute; display: block;"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1920px; height:1080px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
+</body>
+</html>
